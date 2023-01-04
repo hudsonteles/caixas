@@ -74,22 +74,22 @@ const Box = ({
     //         loader.setPath('/images/textures/box/')
     //     }
     // )
-    // const texture = useLoader(TextureLoader,
-    //     "images/textures/box/side.png"
-    // )
+    const texture = useLoader(TextureLoader,
+         "images/textures/box/papelao.png"
+    )
 
     return (
         <mesh
             {...mesh}
             recieveShadow={true}
             castShadow={true}
-            material={materials}
+            // material={materials}
         >
             <boxBufferGeometry args={box.dimensions}/>
-            {/* <meshPhysicalMaterial
+            <meshPhysicalMaterial
                 map={texture}
                 color={"white"}
-            /> */}
+            />
         </mesh>
     );
 }
@@ -141,9 +141,9 @@ export default function Home() {
     const [ spaceXBox, setSpaceXBox ] = useState(0.00)
     const [ spaceYBox, setSpaceYBox ] = useState(0.00)
     const [ spaceZBox, setSpaceZBox ] = useState(0.00)
-    const [ larguraBox, setLarguraBox ] = useState(21)
-    const [ comprimentoBox, setComprimentoBox ] = useState(11)
-    const [ alturaBox, setAlturaBox ] = useState(17)
+    const [ larguraBox, setLarguraBox ] = useState(30)
+    const [ comprimentoBox, setComprimentoBox ] = useState(30)
+    const [ alturaBox, setAlturaBox ] = useState(30)
     const [ larguraPallete, setLarguraPallete ] = useState(120)
     const [ comprimentoPallete, setComprimentoPallete ] = useState(100)
     const [ alturaPallete, setAlturaPallete ] = useState(110)
@@ -187,25 +187,25 @@ export default function Home() {
                 {/* <Draggable>
                     <LightBulb position={[0, 3, 0]} />
                 </Draggable> */}
-                <ambientLight color={"white"} intensity={0.5} />
-                <spotLight position={[100, 100, 1000]} angle={0.3}/>
+                <ambientLight color={"white"} intensity={0.2} />
+                <spotLight position={[100, 200, 400]} angle={0.3}/>
                     {
-                        // [...Array(getCaixasAltura()).keys()].map((itemAltura, indexAltura) => {
-                            // return(
+                        [...Array(getCaixasAltura()).keys()].map((itemAltura, indexAltura) => {
+                            return(
                                 [...Array(getCaixasColuna()).keys()].map((itemColuna, indexColuna) => {
                                     return (
                                         [...Array(getCaixasLinha()).keys()].map((itemLinha, indexLinha) => {
                                             return (
                                                 // <Draggable>
                                                 <Fragment
-                                                    key={`${indexLinha}`}
+                                                    key={`${indexAltura}${indexColuna}${indexLinha}`}
                                                 >
                                                     <Box
                                                         mesh={{
                                                             position: [
-                                                                (larguraBox*itemLinha)+(spaceXBox*(itemLinha+1)),
-                                                                0,
-                                                                (comprimentoBox*itemColuna)+(spaceYBox*(itemColuna+1))
+                                                                -((larguraBox * getCaixasLinha() / 2) - (larguraBox/2)) + (larguraBox * itemLinha) + (spaceXBox * (itemLinha + 1)),
+                                                                (alturaBox * itemAltura) + (spaceZBox * (itemAltura + 1)),
+                                                                -((comprimentoBox * getCaixasColuna() / 2) - (comprimentoBox/2)) + (comprimentoBox * itemColuna) + (spaceYBox * (itemColuna + 1)),
                                                             ]
                                                         }}
                                                         box={{
@@ -218,23 +218,17 @@ export default function Home() {
                                         })
                                     )
                                 })
-                            // )
-                        // })
+                            )
+                        })
                     }
 
                 <Controls />
                 <Pallete
                     mesh={{
                         position: [
-                            larguraPallete === (larguraBox * getCaixasLinha() + (spaceXBox * getCaixasLinha())) ?
-                                (larguraPallete/2) - (larguraBox/2) + spaceXBox :
-                                // ((larguraPallete/2) - ((larguraPallete - (larguraBox * getCaixasLinha()) + (spaceXBox * getCaixasLinha()))))
-                                (larguraPallete/2) + ((larguraPallete - (larguraBox * getCaixasLinha())))
-                            ,
+                            0,
                             -(alturaBox-((alturaBox/2) - 7)),
-                            comprimentoPallete === ((comprimentoBox * getCaixasColuna()) + (spaceYBox * getCaixasColuna())) ?
-                                (comprimentoPallete/2) - (comprimentoBox/2) + spaceYBox :
-                                ((comprimentoPallete/2) + ((comprimentoPallete - (comprimentoBox * getCaixasColuna()) + (spaceYBox * getCaixasColuna())))) / 2
+                            0
                         ]
                     }}
                     box={{
