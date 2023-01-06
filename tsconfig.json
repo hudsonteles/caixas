@@ -3,7 +3,7 @@
     "target": "es5",
     "downlevelIteration": true,
     "typeRoots": [
-        "./types",
+        "src/types",
         "./node_modules/@types"
     ],
     "lib": [
@@ -26,8 +26,9 @@
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx"
-, "pages/home.tsx"  ],
+    "**/*.tsx",
+    "src/pages/home.tsx"
+  ],
   "exclude": [
     "node_modules",
   ]
