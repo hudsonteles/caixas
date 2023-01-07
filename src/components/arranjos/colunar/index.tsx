@@ -1,11 +1,9 @@
-import { Typography } from '@mui/material';
-import { Text, Html } from '@react-three/drei';
 import { Fragment, useEffect } from 'react';
 import { Canvas } from 'react-three-fiber';
 import { Caixa } from '../../../interfaces/Caixa';
 import { Palete as interfacePalete } from '../../../interfaces/Palete';
 import Objetos3d from '../../objetos-3d';
-import Palete from '../../objetos-3d/Palete';
+import Palete from '../../objetos-3d/palete';
 
 type Props = {
     palete: interfacePalete,

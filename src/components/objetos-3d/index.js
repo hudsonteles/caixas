@@ -1,10 +1,8 @@
 import { extend, useLoader, useThree, useFrame } from "@react-three/fiber";
-import { Html } from '@react-three/drei';
 import { TextureLoader, MeshBasicMaterial, Line, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { DragControls } from "three/examples/jsm/controls/DragControls";
-import { useRef, useState } from "react";
-import { Typography } from "@mui/material";
+import { useRef} from "react";
 
 extend({ OrbitControls, DragControls });
 
@@ -13,12 +11,9 @@ const Objetos3d = () => {
     const Linha = ({
         start,
         end
-    }: {
-        start: number[],
-        end: number[]
     }) => {
 
-        const ref = useRef<Line>()
+        const ref = useRef()
 
         useFrame(() => {
             if(ref.current){
