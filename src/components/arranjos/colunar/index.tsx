@@ -1,3 +1,4 @@
+import { Stack, Typography } from '@mui/material';
 import { Fragment } from 'react';
 import { Canvas } from 'react-three-fiber';
 import { Caixa } from '../../../interfaces/Caixa';
@@ -6,12 +7,12 @@ import Objetos3d from '../../objetos-3d';
 
 type Props = {
     palete: Palete,
-    caixa: Caixa    
+    caixa: Caixa
 }
 
 const Colunar = ({
     palete,
-    caixa    
+    caixa
 }: Props) => {
 
     const { Caixa, Controls, Palete } = Objetos3d();
@@ -22,17 +23,17 @@ const Colunar = ({
         :
             Math.ceil(palete.largura/caixa.largura)
 
-        return totalCaixas 
+        return totalCaixas
     }
 
-    const getTotalCaixasColuna = () => {        
+    const getTotalCaixasColuna = () => {
         const totalCaixas = Math.ceil(palete.comprimento/caixa.comprimento) * caixa.comprimento > palete.comprimento ?
                 Math.ceil(palete.comprimento/caixa.comprimento) - 1
             :
                 Math.ceil(palete.comprimento/caixa.comprimento)
 
-        return totalCaixas    
-    }    
+        return totalCaixas
+    }
 
     const getCaixasAltura = () => {
         return Math.ceil(palete.altura/caixa.altura) * caixa.altura > palete.altura ?
@@ -60,7 +61,7 @@ const Colunar = ({
 
     return (
         <Canvas
-            shadows={true}                                
+            shadows={true}
             camera={{
                 position: [-60, 70, 70]
             }}
@@ -80,7 +81,7 @@ const Colunar = ({
                                             // <Draggable>
                                             <Fragment
                                                 key={`${indexAltura}${indexColuna}${indexLinha}`}
-                                            >   
+                                            >
                                             {
                                                 getCaixa(itemLinha, itemColuna, itemAltura)
                                             }

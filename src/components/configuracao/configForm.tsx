@@ -1,22 +1,24 @@
 import { useState } from "react";
 import * as yup from 'yup';
 
-const ConfigForm = () => {    
+const ConfigForm = () => {
 
     const [initialValues] = useState<{
-        larguraPalete: number | null,
-        comprimentoPalete: number | null,
-        alturaPalete: number | null,
-        larguraCaixa: number | null,
-        comprimentoCaixa: number | null,
-        alturaCaixa: number | null
+        larguraPalete: number,
+        comprimentoPalete: number,
+        alturaPalete: number,
+        larguraCaixa: number,
+        comprimentoCaixa: number,
+        alturaCaixa: number,
+        arranjo: string
     }>({
-        larguraPalete: null,
-        comprimentoPalete: null,
-        alturaPalete: null,
-        larguraCaixa: null,
-        comprimentoCaixa: null,
-        alturaCaixa: null        
+        larguraPalete: 0,
+        comprimentoPalete: 0,
+        alturaPalete: 0,
+        larguraCaixa: 0,
+        comprimentoCaixa: 0,
+        alturaCaixa: 0,
+        arranjo: ''
     })
 
     const schemaValidation = yup.object().shape({
@@ -55,6 +57,10 @@ const ConfigForm = () => {
             .typeError("Campo obrigatório")
             .moreThan(0, 'Deve ser maior que 0')
             .max(yup.ref("alturaPalete"), 'A altura da caixa não pode ser maior que a do palete')
+            .required("Campo obrigatório"),
+        arranjo: yup
+            .string()
+            .typeError("Campo obrigatório")
             .required("Campo obrigatório")
     })
 

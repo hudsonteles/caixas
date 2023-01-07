@@ -28,7 +28,7 @@
     "**/*.ts",
     "**/*.tsx",
     "src/pages/home.tsx"
-  ],
+, "src/components/objetos-3d/index.js"  ],
   "exclude": [
     "node_modules",
   ]

@@ -2,7 +2,6 @@ import { extend, useLoader, useThree } from "@react-three/fiber";
 import { TextureLoader, MeshBasicMaterial } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { DragControls } from "three/examples/jsm/controls/DragControls";
-import { useRef, useState, useEffect } from "react";
 
 extend({ OrbitControls, DragControls });
 
@@ -12,9 +11,9 @@ const Objetos3d = () => {
         mesh,
         box
     }) => {
-    
+
         const loader = new TextureLoader();
-    
+
         const materials = [
             new MeshBasicMaterial({map: loader.load('images/textures/pallete/side.png')}),
             new MeshBasicMaterial({map: loader.load('images/textures/pallete/side.png')}),
@@ -23,7 +22,7 @@ const Objetos3d = () => {
             new MeshBasicMaterial({map: loader.load('images/textures/pallete/front.png')}),
             new MeshBasicMaterial({map: loader.load('images/textures/pallete/front.png')})
         ]
-    
+
         return (
             <mesh
                 {...mesh}
@@ -52,7 +51,7 @@ const Objetos3d = () => {
         box
     }) => {
         // const loader = new TextureLoader();
-    
+
         // const materials = [
         //     new MeshBasicMaterial({map: loader.load('images/textures/box/side-escura.png')}),
         //     new MeshBasicMaterial({map: loader.load('images/textures/box/side-escura.png')}),
@@ -61,11 +60,11 @@ const Objetos3d = () => {
         //     new MeshBasicMaterial({map: loader.load('images/textures/box/front-escura.png')}),
         //     new MeshBasicMaterial({map: loader.load('images/textures/box/front-escura.png')})
         // ]
-    
+
         // const texture = new CubeTextureLoader()
         // .setPath('/images/textures/box/')
         // .load(["front.png", "front.png", "front.png", "front.png", "front.png", "front.png"]);
-    
+
         // const texture = useLoader(
         //     CubeTextureLoader,
         //     [["front.png", "front.png", "front.png", "front.png", "front.png", "front.png"]],
@@ -76,7 +75,7 @@ const Objetos3d = () => {
         const texture = useLoader(TextureLoader,
              "images/textures/box/papelao.png"
         )
-    
+
         return (
             <mesh
                 {...mesh}
@@ -108,36 +107,35 @@ const Objetos3d = () => {
         );
     }
 
-    function Draggable(props) {
+    // function Draggable(props) {
 
-        const groupRef = useRef<any>();
-        const controlsRef = useRef<any>();
-        const [objects, setObjects] = useState();
-        const { camera, gl, scene } = useThree();
-      
-        useEffect(() => {
-          setObjects(groupRef.current.children);
-        }, [groupRef]);
-      
-        useEffect(() => {
-          controlsRef.current.addEventListener("hoveron", () => {
-            scene.orbitControls.enabled = false;
-          });
-          controlsRef.current.addEventListener("hoveroff", () => {
-            scene.orbitControls.enabled = true;
-          });
-        }, [objects]);
-        return (
-          <group ref={groupRef}>
-            <dragControls ref={controlsRef} args={[objects, camera, gl.domElement]} />
-            {props.children}
-          </group>
-        );
-    }
-    
-    return {Palete, Caixa, Controls, LightBulb, Draggable}
+    //     const groupRef = useRef<any>();
+    //     const controlsRef = useRef<any>();
+    //     const [objects, setObjects] = useState();
+    //     const { camera, gl, scene } = useThree();
+
+    //     useEffect(() => {
+    //       setObjects(groupRef.current.children);
+    //     }, [groupRef]);
+
+    //     useEffect(() => {
+    //       controlsRef.current.addEventListener("hoveron", () => {
+    //         scene.orbitControls.enabled = false;
+    //       });
+    //       controlsRef.current.addEventListener("hoveroff", () => {
+    //         scene.orbitControls.enabled = true;
+    //       });
+    //     }, [objects]);
+    //     return (
+    //       <group ref={groupRef}>
+    //         <dragControls ref={controlsRef} args={[objects, camera, gl.domElement]} />
+    //         {props.children}
+    //       </group>
+    //     );
+    // }
+
+    return {Palete, Caixa, Controls, LightBulb}
 
 }
 
 export default Objetos3d;
-
