@@ -7,6 +7,7 @@ const ConfigForm = () => {
         larguraPalete: number,
         comprimentoPalete: number,
         alturaPalete: number,
+        alturaMaximaPalete: number,
         larguraCaixa: number,
         comprimentoCaixa: number,
         alturaCaixa: number,
@@ -15,6 +16,7 @@ const ConfigForm = () => {
         larguraPalete: 0,
         comprimentoPalete: 0,
         alturaPalete: 0,
+        alturaMaximaPalete: 0,
         larguraCaixa: 0,
         comprimentoCaixa: 0,
         alturaCaixa: 0,
@@ -38,6 +40,12 @@ const ConfigForm = () => {
             .number()
             .typeError("Campo obrigatório")
             .moreThan(0, 'Deve ser maior que 0')
+            .max(50, 'Deve ser um valor até 50cm')
+            .required("Campo obrigatório"),
+        alturaMaximaPalete: yup
+            .number()
+            .typeError("Campo obrigatório")
+            .moreThan(0, 'Deve ser maior que 0')
             .max(500, 'Deve ser um valor até 500cm')
             .required("Campo obrigatório"),
         larguraCaixa: yup
@@ -56,7 +64,7 @@ const ConfigForm = () => {
             .number()
             .typeError("Campo obrigatório")
             .moreThan(0, 'Deve ser maior que 0')
-            .max(yup.ref("alturaPalete"), 'A altura da caixa não pode ser maior que a do palete')
+            .max(yup.ref("alturaMaximaPalete"), 'A altura da caixa não pode ser maior que a do palete')
             .required("Campo obrigatório"),
         arranjo: yup
             .string()

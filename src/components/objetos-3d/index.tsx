@@ -1,13 +1,48 @@
-import { extend, useLoader, useThree } from "@react-three/fiber";
-import { TextureLoader, MeshBasicMaterial } from "three";
+import { extend, useLoader, useThree, useFrame } from "@react-three/fiber";
+import { Html } from '@react-three/drei';
+import { TextureLoader, MeshBasicMaterial, Line, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { DragControls } from "three/examples/jsm/controls/DragControls";
+import { useRef, useState } from "react";
+import { Typography } from "@mui/material";
 
 extend({ OrbitControls, DragControls });
 
 const Objetos3d = () => {
 
-    const Palete = ({
+    const Linha = ({
+        start,
+        end
+    }: {
+        start: number[],
+        end: number[]
+    }) => {
+
+        const ref = useRef<Line>()
+
+        useFrame(() => {
+            if(ref.current){
+                ref.current.geometry.setFromPoints([start, end].map((point) => new Vector3(...point)));
+            }
+        })
+
+        return (
+            <line ref={ref} >
+                {/* <group position-z={-0.1} position-x={60}>
+                    <Html>
+                        <Typography>
+                            {}
+                        </Typography>
+                    </Html> */}
+                    <bufferGeometry />
+                    <lineBasicMaterial color="hotpink"/>
+                {/* </group> */}
+            </line>
+        )
+
+    }
+
+    const Palete3d = ({
         mesh,
         box
     }) => {
@@ -134,7 +169,7 @@ const Objetos3d = () => {
     //     );
     // }
 
-    return {Palete, Caixa, Controls, LightBulb}
+    return {Palete3d, Caixa, Controls, LightBulb, Linha}
 
 }
 

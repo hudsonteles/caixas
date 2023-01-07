@@ -1,21 +1,33 @@
-import { Stack, Typography } from '@mui/material';
-import { Fragment } from 'react';
+import { Typography } from '@mui/material';
+import { Text, Html } from '@react-three/drei';
+import { Fragment, useEffect } from 'react';
 import { Canvas } from 'react-three-fiber';
 import { Caixa } from '../../../interfaces/Caixa';
-import { Palete } from '../../../interfaces/Palete';
+import { Palete as interfacePalete } from '../../../interfaces/Palete';
 import Objetos3d from '../../objetos-3d';
+import Palete from '../../objetos-3d/Palete';
 
 type Props = {
-    palete: Palete,
-    caixa: Caixa
+    palete: interfacePalete,
+    caixa: Caixa,
+    showCotas: boolean,
+    setTotalCaixas: (total: number) => void
 }
 
 const Colunar = ({
     palete,
-    caixa
+    caixa,
+    showCotas,
+    setTotalCaixas
 }: Props) => {
 
-    const { Caixa, Controls, Palete } = Objetos3d();
+    useEffect(() => {
+        setTotalCaixas(
+            getTotalCaixasLinha() * getTotalCaixasColuna() * getCaixasAltura()
+        )
+    },[])
+
+    const { Caixa, Controls, Linha } = Objetos3d();
 
     const getTotalCaixasLinha = () => {
         const totalCaixas = Math.ceil(palete.largura/caixa.largura) * (caixa.largura) > palete.largura ?
@@ -36,10 +48,10 @@ const Colunar = ({
     }
 
     const getCaixasAltura = () => {
-        return Math.ceil(palete.altura/caixa.altura) * caixa.altura > palete.altura ?
-            Math.ceil(palete.altura/caixa.altura) - 1
+        return Math.ceil(palete.alturaMaxima/caixa.altura) * caixa.altura > palete.alturaMaxima ?
+            Math.ceil(palete.alturaMaxima/caixa.altura) - 1
         :
-            Math.ceil(palete.altura/caixa.altura)
+            Math.ceil(palete.alturaMaxima/caixa.altura)
     }
 
     const getCaixa = (itemLinha: number, itemColuna: number, itemAltura: number) => {
@@ -70,44 +82,38 @@ const Colunar = ({
                 <LightBulb position={[0, 3, 0]} />
             </Draggable> */}
             <ambientLight color={"white"} intensity={0.2} />
-            <spotLight position={[100, 200, 400]} angle={0.3}/>
-                {
-                    [...Array(getCaixasAltura()).keys()].map((itemAltura, indexAltura) => {
-                        return(
-                            [...Array(getTotalCaixasColuna()).keys()].map((itemColuna, indexColuna) => {
-                                return (
-                                    [...Array(getTotalCaixasLinha()).keys()].map((itemLinha, indexLinha) => {
-                                        return (
-                                            // <Draggable>
-                                            <Fragment
-                                                key={`${indexAltura}${indexColuna}${indexLinha}`}
-                                            >
-                                            {
-                                                getCaixa(itemLinha, itemColuna, itemAltura)
-                                            }
-                                            </Fragment>
-                                            // </Draggable>
-                                        )
-                                    })
-                                )
-                            })
-                        )
-                    })
-                }
+            <spotLight position={[100, 200, 400]} angle={1}/>
+            {
+                [...Array(getCaixasAltura()).keys()].map((itemAltura, indexAltura) => {
+                    return(
+                        [...Array(getTotalCaixasColuna()).keys()].map((itemColuna, indexColuna) => {
+                            return (
+                                [...Array(getTotalCaixasLinha()).keys()].map((itemLinha, indexLinha) => {
+                                    return (
+                                        // <Draggable>
+                                        <Fragment
+                                            key={`${indexAltura}${indexColuna}${indexLinha}`}
+                                        >
+                                        {
+                                            getCaixa(itemLinha, itemColuna, itemAltura)
+                                        }
+                                        </Fragment>
+                                        // </Draggable>
+                                    )
+                                })
+                            )
+                        })
+                    )
+                })
+            }
 
             <Controls />
             <Palete
-                mesh={{
-                    position: [
-                        0,
-                        -(caixa.altura-((caixa.altura/2) - 7)),
-                        0
-                    ]
-                }}
-                box={{
-                    dimensions: [palete.largura, 14, palete.comprimento]
-                }}
+                palete={palete}
+                caixa={caixa}
+                showCotas={showCotas}
             />
+
         </Canvas>
     )
 

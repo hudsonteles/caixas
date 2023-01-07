@@ -1,5 +1,5 @@
 import { ExpandMore, Home, Refresh, Settings } from "@mui/icons-material";
-import { Accordion, AccordionDetails, AccordionSummary, Autocomplete, Button, Container, createFilterOptions, Divider, IconButton, InputAdornment, Paper, Stack, TextField, Tooltip, Typography } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Autocomplete, Button, Container, createFilterOptions, Divider, FormControlLabel, IconButton, InputAdornment, Paper, Stack, Switch, TextField, Tooltip, Typography } from "@mui/material";
 import { useFormik } from "formik";
 import { useState } from "react";
 import { Caixa } from "../../interfaces/Caixa";
@@ -11,12 +11,16 @@ type Props = {
     setCaixa: (caixa: Caixa | null) => void,
     setPalete: (palete: Palete | null) => void,
     setSelectedArranjo: (arranjo: string | null) => void,
+    showCotas: boolean,
+    setShowCotas: (showCotas: boolean) => void,
 }
 
 const Configuracao = ({
     setCaixa,
     setPalete,
-    setSelectedArranjo
+    setSelectedArranjo,
+    showCotas,
+    setShowCotas
 }: Props) => {
 
     const { initialValues, schemaValidation } = ConfigForm();
@@ -42,7 +46,8 @@ const Configuracao = ({
             setPalete({
                 largura: values.larguraPalete,
                 comprimento: values.comprimentoPalete,
-                altura: values.alturaPalete
+                altura: values.alturaPalete,
+                alturaMaxima: values.alturaMaximaPalete
             })
             setCaixa({
                 largura: values.larguraCaixa,
@@ -102,7 +107,7 @@ const Configuracao = ({
 
                         <Stack
                             direction="row"
-                            justifyContent="flex-start"
+                            justifyContent="space-between"
                             width="100%"
                         >
                             <Tooltip
@@ -115,6 +120,16 @@ const Configuracao = ({
                                     <Home />
                                 </IconButton>
                             </Tooltip>
+
+                            <FormControlLabel
+                                control={
+                                    <Switch
+                                        checked={showCotas}
+                                        onChange={() => {setShowCotas(!showCotas)}}
+                                    />
+                                }
+                                label="Cotas"
+                            />
                         </Stack>
                         <Stack
                             direction="column"
@@ -180,7 +195,7 @@ const Configuracao = ({
                                     type="number"
                                     id="alturaPalete"
                                     name="alturaPalete"
-                                    label="Altura máxima"
+                                    label="Altura"
                                     variant="outlined"
                                     size="small"
                                     disabled={created}
@@ -194,6 +209,26 @@ const Configuracao = ({
                                     onChange={formik.handleChange}
                                     error={formik.touched.alturaPalete && Boolean(formik.errors.alturaPalete)}
                                     helperText={formik.touched.alturaPalete && <>{formik.errors.alturaPalete}</>}
+                                />
+
+                                <TextField
+                                    type="number"
+                                    id="alturaMaximaPalete"
+                                    name="alturaMaximaPalete"
+                                    label="Altura Máxima com Caixas"
+                                    variant="outlined"
+                                    size="small"
+                                    disabled={created}
+                                    InputLabelProps={{
+                                        shrink: true
+                                    }}
+                                    InputProps={{
+                                        endAdornment: <InputAdornment position="end">cm</InputAdornment>
+                                    }}
+                                    value={formik.values.alturaMaximaPalete}
+                                    onChange={formik.handleChange}
+                                    error={formik.touched.alturaMaximaPalete && Boolean(formik.errors.alturaMaximaPalete)}
+                                    helperText={formik.touched.alturaMaximaPalete && <>{formik.errors.alturaMaximaPalete}</>}
                                 />
 
                             </Stack>
