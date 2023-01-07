@@ -13,13 +13,13 @@ const ConfigForm = () => {
         alturaCaixa: number,
         arranjo: string
     }>({
-        larguraPalete: 0,
-        comprimentoPalete: 0,
-        alturaPalete: 0,
-        alturaMaximaPalete: 0,
-        larguraCaixa: 0,
-        comprimentoCaixa: 0,
-        alturaCaixa: 0,
+        larguraPalete: null,
+        comprimentoPalete: null,
+        alturaPalete: null,
+        alturaMaximaPalete: null,
+        larguraCaixa: null,
+        comprimentoCaixa: null,
+        alturaCaixa: null,
         arranjo: ''
     })
 

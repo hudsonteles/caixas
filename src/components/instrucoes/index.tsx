@@ -28,15 +28,18 @@ const Instrucoes = ({}: Props) => {
                     }}
                 />
                 <Typography
-                    variant="h4"                    
+                    variant="h4"
                 >
                     Dimensionamento de Paletes
                 </Typography>
 
-                <Typography                    
-                    variant="h6"                    
+                <Typography
+                    variant="h6"
                     sx={{
-                        display: 'flex',
+                        display: {
+                            xs: 'contents',
+                            sm: 'flex'
+                        },
                         flexDirection: 'row',
                         alignItems: 'center'
                     }}
@@ -44,12 +47,13 @@ const Instrucoes = ({}: Props) => {
                     {`Clique em `}
                     <Box
                         fontWeight="bold"
+                        component="span"
                         px={0.5}
                         sx={{
                             display: 'flex',
                             flexDirection: 'row',
                             alignItems: 'center'
-                        }}                       
+                        }}
                     >
                         <Settings /> {` Configurações `}
                     </Box>

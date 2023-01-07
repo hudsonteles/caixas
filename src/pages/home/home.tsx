@@ -37,23 +37,6 @@ export default function Home() {
             />
 
             {
-                selectedArranjo &&
-                    <Paper
-                        sx={{
-                            m: 1,
-                            p: 1,
-                            position: 'fixed',
-                            zIndex: 1,
-                            right: 0
-                        }}
-                    >
-                        <Typography>
-                            {`Total de Caixas: ${totalCaixas}`}
-                        </Typography>
-                    </Paper>
-            }
-
-            {
                 selectedArranjo === null && palete === null && caixa === null ?
                     <Instrucoes />
                 :
@@ -64,6 +47,24 @@ export default function Home() {
                             showCotas={showCotas}
                             setTotalCaixas={setTotalCaixas}
                         />
+            }
+
+            {
+                selectedArranjo &&
+                    <Paper
+                        sx={{
+                            m: 1,
+                            p: 1,
+                            position: 'fixed',
+                            zIndex: 1,
+                            right: 0,
+                            bottom: 0
+                        }}
+                    >
+                        <Typography>
+                            {`Total de Caixas: ${totalCaixas}`}
+                        </Typography>
+                    </Paper>
             }
 
 
