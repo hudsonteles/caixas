@@ -8,6 +8,7 @@ import { Palete } from '../../interfaces/Palete';
 import Configuracao from '../../components/configuracao';
 import Instrucoes from '../../components/instrucoes';
 import { grey } from '@mui/material/colors';
+import Trancado from '../../components/arranjos/trancado';
 
 export default function Home() {
 
@@ -37,16 +38,28 @@ export default function Home() {
             />
 
             {
-                selectedArranjo === null && palete === null && caixa === null ?
+                selectedArranjo === null && palete === null && caixa === null &&
                     <Instrucoes />
-                :
-                    (selectedArranjo === 'colunar') &&
-                        <Colunar
-                            palete={palete}
-                            caixa={caixa}
-                            showCotas={showCotas}
-                            setTotalCaixas={setTotalCaixas}
-                        />
+            }
+
+            {
+                selectedArranjo === 'Colunar' &&
+                    <Colunar
+                        palete={palete}
+                        caixa={caixa}
+                        showCotas={showCotas}
+                        setTotalCaixas={setTotalCaixas}
+                    />
+            }
+
+            {
+                selectedArranjo === 'Trançado' &&
+                    <Trancado
+                        palete={palete}
+                        caixa={caixa}
+                        showCotas={showCotas}
+                        setTotalCaixas={setTotalCaixas}
+                    />
             }
 
             {

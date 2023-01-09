@@ -21,10 +21,8 @@ const Palete = ({
     const { Palete3d, Linha } = Objetos3d();
 
     const getCaixasAltura = () => {
-        return Math.ceil(palete.alturaMaxima/caixa.altura) * caixa.altura > palete.alturaMaxima ?
-            Math.ceil(palete.alturaMaxima/caixa.altura) - 1
-        :
-            Math.ceil(palete.alturaMaxima/caixa.altura)
+        const total = Math.ceil(palete.alturaMaxima/caixa.altura)
+        return total * caixa.altura > palete.alturaMaxima ? total - 1 : total
     }
 
     return (
@@ -141,7 +139,7 @@ const Palete = ({
                     <Linha
                         start={[
                             (palete.comprimento/2) + 10,
-                            (getCaixasAltura() * caixa.altura) - (palete.altura),
+                            (getCaixasAltura() * caixa.altura) - (caixa.altura/2),
                             (palete.comprimento/2) + 10
                         ]} end={[
                             (palete.comprimento/2) + 10,

@@ -27,7 +27,8 @@ const Configuracao = ({
 
     const [ created, setCreated ] = useState<boolean>();
     const [ optionsArranjo ] = useState<string[]>([
-        'colunar'
+        'Colunar',
+        'Trançado'
     ])
 
     const filterType = createFilterOptions<string>();

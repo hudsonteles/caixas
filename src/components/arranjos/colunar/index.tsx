@@ -23,7 +23,7 @@ const Colunar = ({
         setTotalCaixas(
             getTotalCaixasLinha() * getTotalCaixasColuna() * getCaixasAltura()
         )
-    },[])
+    },[palete, caixa])
 
     const { Caixa, Controls, Linha } = Objetos3d();
 
