@@ -5,7 +5,6 @@ import { useState } from "react";
 import { Caixa } from "../../interfaces/Caixa";
 import { Palete } from "../../interfaces/Palete";
 import ConfigForm from "./configForm";
-import PerfectScrollbar from 'react-perfect-scrollbar'
 
 type Props = {
     setCaixa: (caixa: Caixa | null) => void,
@@ -101,7 +100,7 @@ const Configuracao = ({
                         justifyContent="space-between"
                         alignItems="center"
                         sx={{
-                            maxHeight: 'calc(100vh - 96px)',
+                            maxHeight: 'calc(100vh - 200px)',
                             maxWidth: '250px'
                         }}
                     >

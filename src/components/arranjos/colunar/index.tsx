@@ -110,6 +110,7 @@ const Colunar = ({
                 palete={palete}
                 caixa={caixa}
                 showCotas={showCotas}
+                arranjo="colunar"
             />
 
         </Canvas>

@@ -25,7 +25,7 @@ const Trancado = ({
         )
     },[palete, caixa])
 
-    const { Caixa, Controls, Linha } = Objetos3d();
+    const { Caixa, Controls } = Objetos3d();
 
     const getTotal = () => {
         return getTotalCaixasAltura() === 0 ?
@@ -42,7 +42,7 @@ const Trancado = ({
 
     const getTotalCaixasLarguraAlternada = () => {
         const totalCaixas = Math.ceil(getTotalCaixasLargura() * caixa.largura / caixa.comprimento)
-        return totalCaixas * caixa.comprimento > getTotalCaixasLargura() * caixa.comprimento ? totalCaixas - 1: totalCaixas
+        return totalCaixas * caixa.comprimento > getTotalCaixasLargura() * caixa.comprimento ? totalCaixas - 2: totalCaixas - 1
     }
 
     const getTotalCaixasComprimento = () => {
@@ -52,7 +52,7 @@ const Trancado = ({
 
     const getTotalCaixasComprimentoAlternada = () => {
         const totalCaixas = Math.ceil(getTotalCaixasComprimento() * caixa.comprimento / caixa.largura)
-        return totalCaixas * caixa.largura > getTotalCaixasLargura() * caixa.largura ? totalCaixas - 1: totalCaixas
+        return totalCaixas * caixa.largura > getTotalCaixasLargura() * caixa.largura ? totalCaixas - 2: totalCaixas - 1
     }
 
     const getTotalCaixasAltura = () => {
@@ -156,6 +156,7 @@ const Trancado = ({
                 palete={palete}
                 caixa={caixa}
                 showCotas={showCotas}
+                arranjo="trancado"
             />
 
         </Canvas>
