@@ -24,7 +24,7 @@ const Palete = ({
 
     const getCaixasAltura = () => {
         const total = Math.ceil(palete.alturaMaxima/caixa.altura)
-        return total * caixa.altura > palete.alturaMaxima ? total - (arranjo === 'colunar' ? 1 : 2) : total - (arranjo === 'colunar' ? 0 : 1)
+        return total * caixa.altura > palete.alturaMaxima ? total - 1 : total
     }
 
     return (

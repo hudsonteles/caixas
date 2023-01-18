@@ -41,8 +41,8 @@ const Trancado = ({
     }
 
     const getTotalCaixasLarguraAlternada = () => {
-        const totalCaixas = Math.ceil(getTotalCaixasLargura() * caixa.largura / caixa.comprimento)
-        return totalCaixas * caixa.comprimento > getTotalCaixasLargura() * caixa.comprimento ? totalCaixas - 2: totalCaixas - 1
+        let totalCaixas = Math.ceil(getTotalCaixasLargura() * caixa.largura / caixa.comprimento)
+        return totalCaixas * caixa.comprimento > getTotalCaixasLargura() * caixa.largura ? totalCaixas - 1: totalCaixas
     }
 
     const getTotalCaixasComprimento = () => {
@@ -51,13 +51,13 @@ const Trancado = ({
     }
 
     const getTotalCaixasComprimentoAlternada = () => {
-        const totalCaixas = Math.ceil(getTotalCaixasComprimento() * caixa.comprimento / caixa.largura)
-        return totalCaixas * caixa.largura > getTotalCaixasLargura() * caixa.largura ? totalCaixas - 2: totalCaixas - 1
+        let totalCaixas = Math.ceil(getTotalCaixasComprimento() * caixa.comprimento / caixa.largura)
+        return totalCaixas * caixa.largura > getTotalCaixasComprimento() * caixa.comprimento ? totalCaixas - 1: totalCaixas
     }
 
     const getTotalCaixasAltura = () => {
         const total = Math.ceil(palete.alturaMaxima/caixa.altura)
-        return total > palete.alturaMaxima ? total - 2 : total - 1
+        return total * caixa.altura > palete.alturaMaxima ? total - 1 : total
     }
 
     const getCaixa = (itemLargura: number, itemComprimento: number, itemAltura: number) => {
