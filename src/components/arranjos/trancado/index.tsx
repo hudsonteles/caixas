@@ -61,48 +61,28 @@ const Trancado = ({
     }
 
     const getCaixa = (itemLargura: number, itemComprimento: number, itemAltura: number) => {
-        // if(itemAltura%2 === 0){
-            return  (
-                <Caixa
-                    mesh={{
-                        position:
-                            itemAltura % 2 === 0 ?
-                                [
-                                    -((caixa.largura * getTotalCaixasLargura() / 2) - (caixa.largura/2)) + (caixa.largura * itemLargura),
-                                    (caixa.altura * itemAltura),
-                                    -((caixa.comprimento * getTotalCaixasComprimento() / 2) - (caixa.comprimento/2)) + (caixa.comprimento * itemComprimento),
-                                ]
-                            :
-                                [
-                                    -((caixa.comprimento * getTotalCaixasLarguraAlternada() / 2) - (caixa.comprimento/2)) + (caixa.comprimento * itemLargura),
-                                    (caixa.altura * itemAltura),
-                                    -((caixa.largura * getTotalCaixasComprimentoAlternada() / 2) - (caixa.largura/2)) + (caixa.largura * itemComprimento),
-                                ]
-                    }}
-                    box={{
-                        dimensions: itemAltura % 2 === 0 ? [caixa.largura, caixa.altura, caixa.comprimento] : [caixa.comprimento, caixa.altura, caixa.largura]
-                    }}
-                />
-            )
-        // }
-
-        // const larguraBase = getTotalCaixasLargura(0) * caixa.largura
-        // const comprimentoBase = getTotalCaixasComprimento(0) * caixa.comprimento
-
-        // return  (
-        //     <Caixa
-        //         mesh={{
-        //             position: [
-        //                 -(comprimentoBase/2) + ((comprimentoBase - (Math.ceil(comprimentoBase/caixa.largura) - caixa.largura)) + (caixa.largura/2)) + (caixa.largura * itemComprimento),
-        //                 (caixa.altura * itemAltura),
-        //                 -(larguraBase/2) + ((larguraBase - (Math.ceil(larguraBase/caixa.comprimento) - caixa.comprimento)) + (larguraBase/2)) + (larguraBase * itemLargura)
-        //             ]
-        //         }}
-        //         box={{
-        //             dimensions: [caixa.comprimento, caixa.altura, caixa.largura]
-        //         }}
-        //     />
-        // )
+        return  (
+            <Caixa
+                mesh={{
+                    position:
+                        itemAltura % 2 === 0 ?
+                            [
+                                -((caixa.largura * getTotalCaixasLargura() / 2) - (caixa.largura/2)) + (caixa.largura * itemLargura),
+                                (caixa.altura * itemAltura),
+                                -((caixa.comprimento * getTotalCaixasComprimento() / 2) - (caixa.comprimento/2)) + (caixa.comprimento * itemComprimento),
+                            ]
+                        :
+                            [
+                                -((caixa.comprimento * getTotalCaixasLarguraAlternada() / 2) - (caixa.comprimento/2)) + (caixa.comprimento * itemLargura),
+                                (caixa.altura * itemAltura),
+                                -((caixa.largura * getTotalCaixasComprimentoAlternada() / 2) - (caixa.largura/2)) + (caixa.largura * itemComprimento),
+                            ]
+                }}
+                box={{
+                    dimensions: itemAltura % 2 === 0 ? [caixa.largura, caixa.altura, caixa.comprimento] : [caixa.comprimento, caixa.altura, caixa.largura]
+                }}
+            />
+        )
     }
 
     return (
