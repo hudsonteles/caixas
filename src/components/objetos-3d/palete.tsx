@@ -9,13 +9,15 @@ import { Palete } from '../../interfaces/Palete';
 type Props = {
     palete: Palete,
     caixa: Caixa,
-    showCotas: boolean
+    showCotas: boolean,
+    arranjo: string
 }
 
 const Palete = ({
     palete,
     caixa,
-    showCotas
+    showCotas,
+    arranjo
 }: Props) => {
 
     const { Palete3d, Linha } = Objetos3d();
