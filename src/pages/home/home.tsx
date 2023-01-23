@@ -9,6 +9,7 @@ import Configuracao from '../../components/configuracao';
 import Instrucoes from '../../components/instrucoes';
 import { grey } from '@mui/material/colors';
 import Trancado from '../../components/arranjos/trancado';
+import Colmeia from '../../components/arranjos/colmeia';
 
 export default function Home() {
 
@@ -55,6 +56,16 @@ export default function Home() {
             {
                 selectedArranjo === 'Trançado' &&
                     <Trancado
+                        palete={palete}
+                        caixa={caixa}
+                        showCotas={showCotas}
+                        setTotalCaixas={setTotalCaixas}
+                    />
+            }
+
+            {
+                selectedArranjo === 'Colmeia' &&
+                    <Colmeia
                         palete={palete}
                         caixa={caixa}
                         showCotas={showCotas}

@@ -12,7 +12,7 @@ type Props = {
     setTotalCaixas: (total: number) => void
 }
 
-const Trancado = ({
+const Colmeia = ({
     palete,
     caixa,
     showCotas,
@@ -163,4 +163,4 @@ const Trancado = ({
 
 }
 
-export default Trancado;
+export default Colmeia;
