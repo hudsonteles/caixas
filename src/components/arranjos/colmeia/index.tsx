@@ -156,6 +156,7 @@ const Colmeia = ({
                 palete={palete}
                 caixa={caixa}
                 showCotas={showCotas}
+                arranjo={''}
             />
 
         </Canvas>
