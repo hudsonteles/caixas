@@ -22,16 +22,16 @@ const Colmeia = ({
     const { Caixa, Controls } = Objetos3d();
 
     const [ caixaNova, setCaixaNova ] = useState<Caixa>({
-        largura: caixa.largura > caixa.comprimento ? caixa.largura : caixa.comprimento,
-        comprimento: caixa.largura > caixa.comprimento ? caixa.comprimento : caixa.largura,
+        largura: caixa.largura,
+        comprimento: caixa.comprimento,
         altura: caixa.altura
     })
 
     useEffect(() => {
 
         setCaixaNova({
-            largura: caixa.largura > caixa.comprimento ? caixa.largura : caixa.comprimento,
-            comprimento: caixa.largura > caixa.comprimento ? caixa.comprimento : caixa.largura,
+            largura: caixa.largura,
+            comprimento: caixa.comprimento,
             altura: caixa.altura
         })
 
