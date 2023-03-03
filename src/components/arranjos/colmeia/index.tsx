@@ -21,6 +21,13 @@ const Colmeia = ({
 
     const { Caixa, Controls } = Objetos3d();
 
+    const [ paleteNovo, setPaleteNovo ] = useState({
+        largura: palete.largura,
+        comprimento: palete.comprimento,
+        altura: palete.altura,
+        alturaMaxima: palete.alturaMaxima
+    })
+
     const [ caixaNova, setCaixaNova ] = useState<Caixa>({
         largura: caixa.largura,
         comprimento: caixa.comprimento,
@@ -29,54 +36,62 @@ const Colmeia = ({
 
     useEffect(() => {
 
-        setCaixaNova({
-            largura: caixa.largura,
-            comprimento: caixa.comprimento,
-            altura: caixa.altura
-        })
-
-        calculateTotal()
+        verificarMelhorDisposicao()
 
     },[ caixa, palete ])
 
-    useEffect(() => {
+    const verificarMelhorDisposicao = () => {
 
-        calculateTotal()
+        const inverter = calculateTotal()
 
-    },[ Caixa ])
+        if(inverter) {
+            setPaleteNovo({
+                largura: palete.comprimento,
+                comprimento: palete.largura,
+                altura: palete.altura,
+                alturaMaxima: palete.alturaMaxima
+            })
+        }
+
+    }
 
     const calculateTotal = () => {
 
+        const totalNormal = ((getTotalFilasCaixaComprimento() * getTotalCaixasComprimento()) + getTotalCaixasComplementar()) * getCaixasAltura()
+        const totalInvertido = ((getTotalFilasCaixaComprimento(true) * getTotalCaixasComprimento(true)) + getTotalCaixasComplementar(true)) * getCaixasAltura()
+
         setTotalCaixas(
-            ((getTotalFilasCaixaComprimento() * getTotalCaixasComprimento()) + getTotalCaixasComplementar()) * getCaixasAltura()
+            totalInvertido > totalNormal ? totalInvertido : totalNormal
         )
 
+        return totalInvertido > totalNormal
+
     }
 
-    const getTotalCaixasComprimento = () => {
-        const total = Math.floor(palete.largura / caixaNova.comprimento)
+    const getTotalCaixasComprimento = (paleteInvertido: boolean = false ) => {
+        const total = Math.floor((paleteInvertido ? paleteNovo.comprimento : paleteNovo.largura) / caixaNova.comprimento)
         return total
     }
 
-    const getTotalFilasCaixaComprimento = () => {
-        const total = Math.floor((palete.comprimento - caixaNova.comprimento) / caixaNova.largura)
+    const getTotalFilasCaixaComprimento = (paleteInvertido: boolean = false) => {
+        const total = Math.floor((paleteInvertido ? (paleteNovo.largura - caixaNova.comprimento) : (paleteNovo.comprimento - caixaNova.comprimento)) / caixaNova.largura)
         return total
     }
 
-    const getTotalCaixasComplementar = () => {
-        const total = Math.floor(palete.largura / caixaNova.largura)
+    const getTotalCaixasComplementar = (paleteInvertido: boolean = false) => {
+        const total = Math.floor((paleteInvertido ? paleteNovo.comprimento : paleteNovo.largura) / caixaNova.largura)
         return total
     }
 
     const getTotalCaixasLargura = () => {
-        return Math.floor(palete.largura / caixaNova.largura)
+        return Math.floor(paleteNovo.largura / caixaNova.largura)
     }
 
     const getCaixasAltura = () => {
-        return Math.ceil(palete.alturaMaxima/caixa.altura) * caixa.altura > palete.alturaMaxima ?
-            Math.ceil(palete.alturaMaxima/caixa.altura) - 1
+        return Math.ceil(paleteNovo.alturaMaxima/caixa.altura) * caixa.altura > paleteNovo.alturaMaxima ?
+            Math.ceil(paleteNovo.alturaMaxima/caixa.altura) - 1
         :
-            Math.ceil(palete.alturaMaxima/caixa.altura)
+            Math.ceil(paleteNovo.alturaMaxima/caixa.altura)
     }
 
     const getCaixa = (itemLargura: number, itemComprimento: number, itemAltura: number) => {
@@ -84,9 +99,9 @@ const Colmeia = ({
             <Caixa
                 mesh={{
                     position: [
-                        - (palete.comprimento/2 - ((palete.comprimento - (getTotalCaixasComprimento() * caixaNova.comprimento))/2) - (caixaNova.comprimento/2)) + (itemComprimento * caixaNova.comprimento),
+                        - (paleteNovo.comprimento/2 - ((paleteNovo.comprimento - (getTotalCaixasComprimento() * caixaNova.comprimento))/2) - (caixaNova.comprimento/2)) + (itemComprimento * caixaNova.comprimento),
                         (caixaNova.altura * itemAltura),
-                        - (palete.largura/2 - ((palete.largura - ((getTotalFilasCaixaComprimento() * caixaNova.largura) + caixaNova.comprimento))/2) - (caixaNova.largura/2)) + (itemLargura * caixaNova.largura)
+                        - (paleteNovo.largura/2 - ((paleteNovo.largura - ((getTotalFilasCaixaComprimento() * caixaNova.largura) + caixaNova.comprimento))/2) - (caixaNova.largura/2)) + (itemLargura * caixaNova.largura)
                     ]
                 }}
                 box={{
@@ -101,7 +116,7 @@ const Colmeia = ({
             <Caixa
                 mesh={{
                     position: [
-                        - (palete.largura/2 - ((palete.largura - (getTotalCaixasLargura() * caixaNova.largura))/2) - (caixaNova.largura/2)) + (itemLargura * caixaNova.largura),
+                        - (paleteNovo.largura/2 - ((paleteNovo.largura - (getTotalCaixasLargura() * caixaNova.largura))/2) - (caixaNova.largura/2)) + (itemLargura * caixaNova.largura),
                         (caixaNova.altura * itemAltura),
                         ((getTotalFilasCaixaComprimento() * caixaNova.largura) + caixaNova.comprimento)/2 - (caixaNova.comprimento/2)
                     ]
@@ -118,9 +133,9 @@ const Colmeia = ({
             <Caixa
                 mesh={{
                     position: [
-                        - (palete.comprimento/2 - ((palete.comprimento - (getTotalCaixasComprimento() * caixaNova.comprimento))/2) - (caixaNova.comprimento/2)) + (itemComprimento * caixaNova.comprimento),
+                        - (paleteNovo.comprimento/2 - ((paleteNovo.comprimento - (getTotalCaixasComprimento() * caixaNova.comprimento))/2) - (caixaNova.comprimento/2)) + (itemComprimento * caixaNova.comprimento),
                         (caixaNova.altura * itemAltura),
-                        - ((palete.largura/2) - ((palete.largura - ((getTotalFilasCaixaComprimento() * caixaNova.largura) + caixaNova.comprimento))/2) - (caixaNova.largura/2)) + (itemLargura * caixaNova.largura) + caixaNova.comprimento
+                        - ((paleteNovo.largura/2) - ((paleteNovo.largura - ((getTotalFilasCaixaComprimento() * caixaNova.largura) + caixaNova.comprimento))/2) - (caixaNova.largura/2)) + (itemLargura * caixaNova.largura) + caixaNova.comprimento
                     ]
                 }}
                 box={{
@@ -135,9 +150,9 @@ const Colmeia = ({
             <Caixa
                 mesh={{
                     position: [
-                        - (palete.largura/2 - ((palete.largura - (getTotalCaixasLargura() * caixaNova.largura))/2) - (caixaNova.largura/2)) + (itemLargura * caixaNova.largura),
+                        - (paleteNovo.largura/2 - ((paleteNovo.largura - (getTotalCaixasLargura() * caixaNova.largura))/2) - (caixaNova.largura/2)) + (itemLargura * caixaNova.largura),
                         (caixaNova.altura * itemAltura),
-                        - ((palete.largura/2) - ((palete.largura - ((getTotalFilasCaixaComprimento() * caixaNova.largura) + caixaNova.comprimento))/2) - (caixaNova.comprimento/2))
+                        - ((paleteNovo.largura/2) - ((paleteNovo.largura - ((getTotalFilasCaixaComprimento() * caixaNova.largura) + caixaNova.comprimento))/2) - (caixaNova.comprimento/2))
                     ]
                 }}
                 box={{
@@ -203,7 +218,7 @@ const Colmeia = ({
             }
             <Controls />
             <Palete
-                palete={palete}
+                palete={paleteNovo}
                 caixa={caixaNova}
                 showCotas={showCotas}
                 arranjo={'colmeia'}
