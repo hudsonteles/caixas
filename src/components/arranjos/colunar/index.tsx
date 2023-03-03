@@ -19,13 +19,13 @@ const Colunar = ({
     setTotalCaixas
 }: Props) => {
 
+    const { Caixa, Controls } = Objetos3d();
+
     useEffect(() => {
         setTotalCaixas(
             getTotalCaixasLinha() * getTotalCaixasColuna() * getCaixasAltura()
         )
-    },[palete, caixa])
-
-    const { Caixa, Controls, Linha } = Objetos3d();
+    },[Caixa])
 
     const getTotalCaixasLinha = () => {
         const totalCaixas = Math.ceil(palete.largura/caixa.largura) * (caixa.largura) > palete.largura ?

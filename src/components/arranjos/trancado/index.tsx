@@ -19,13 +19,13 @@ const Trancado = ({
     setTotalCaixas
 }: Props) => {
 
+    const { Caixa, Controls } = Objetos3d();
+
     useEffect(() => {
         setTotalCaixas(
             getTotal()
         )
-    },[palete, caixa])
-
-    const { Caixa, Controls } = Objetos3d();
+    },[Caixa])
 
     const getTotal = () => {
         return getTotalCaixasAltura() === 0 ?

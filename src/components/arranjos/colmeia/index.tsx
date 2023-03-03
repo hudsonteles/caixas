@@ -19,112 +19,129 @@ const Colmeia = ({
     setTotalCaixas
 }: Props) => {
 
+    const { Caixa, Controls } = Objetos3d();
+
     const [ caixaNova, setCaixaNova ] = useState<Caixa>({
-        largura: caixa.largura > caixa.comprimento ? caixa.comprimento : caixa.largura,
-        comprimento: caixa.largura > caixa.comprimento ? caixa.largura : caixa.comprimento,
+        largura: caixa.largura > caixa.comprimento ? caixa.largura : caixa.comprimento,
+        comprimento: caixa.largura > caixa.comprimento ? caixa.comprimento : caixa.largura,
         altura: caixa.altura
     })
 
     useEffect(() => {
+
         setCaixaNova({
-            largura: caixa.largura > caixa.comprimento ? caixa.comprimento : caixa.largura,
-            comprimento: caixa.largura > caixa.comprimento ? caixa.largura : caixa.comprimento,
+            largura: caixa.largura > caixa.comprimento ? caixa.largura : caixa.comprimento,
+            comprimento: caixa.largura > caixa.comprimento ? caixa.comprimento : caixa.largura,
             altura: caixa.altura
         })
+
+        calculateTotal()
+
+    },[ caixa, palete ])
+
+    useEffect(() => {
+
+        calculateTotal()
+
+    },[ Caixa ])
+
+    const calculateTotal = () => {
+
         setTotalCaixas(
-            10
-            // getTotal()
+            ((getTotalFilasCaixaComprimento() * getTotalCaixasComprimento()) + getTotalCaixasComplementar()) * getCaixasAltura()
         )
-    },[palete, caixa])
 
-    const { Caixa, Controls, Linha } = Objetos3d();
-
-    // const getTotal = () => {
-    //     return getTotalCaixasAltura() === 0 ?
-    //         getTotalCaixasLargura() * getTotalCaixasComprimento()
-    //     :
-    //         (getTotalCaixasLargura() * getTotalCaixasComprimento() * Math.ceil(getTotalCaixasAltura() / 2)) +
-    //         (getTotalCaixasLarguraAlternada() * getTotalCaixasComprimentoAlternada() * (getTotalCaixasAltura() % 2 === 0 ? Math.ceil(getTotalCaixasAltura() / 2) : Math.ceil(getTotalCaixasAltura() / 2) - 1))
-    // }
-
-    const getTotalCaixasLargura = () : any => {
-        let array : number[] = [];
-        const totalLinhas = Math.floor((palete.comprimento - caixaNova.largura) / caixaNova.comprimento)
-
-        for(let i = 0; i < totalLinhas; i++){
-            array.push(Math.floor(palete.largura / caixaNova.largura))
-        }
-
-        const sobra = palete.comprimento - (totalLinhas * caixaNova.comprimento)
-
-        const invertidos = Math.floor(sobra / caixaNova.largura)
-        for(let i = 0; i < invertidos; i++){
-            array.push(Math.floor(palete.largura / caixaNova.comprimento))
-        }
-
-        return {
-            array,
-            invertidos
-        }
-
-    }
-
-    const getTotalCaixasLarguraAlternada = () => {
-        const totalCaixas = Math.ceil(palete.largura / caixaNova.comprimento)
-        return totalCaixas * caixaNova.comprimento > palete.largura ? totalCaixas - 1: totalCaixas
     }
 
     const getTotalCaixasComprimento = () => {
-        const totalLinhas = Math.floor((palete.comprimento - caixaNova.largura) / caixaNova.comprimento)
-        const sobra = palete.comprimento - (totalLinhas * caixaNova.comprimento)
-        const invertidos = Math.floor(sobra / caixaNova.largura)
-
-        return totalLinhas + invertidos;
+        const total = Math.floor(palete.largura / caixaNova.comprimento)
+        return total
     }
 
-    const getTotalCaixasComprimentoAlternada = () => {
-        const totalCaixas = Math.ceil(palete.comprimento / caixaNova.largura)
-        return totalCaixas * caixaNova.largura > palete.comprimento ? totalCaixas - 1: totalCaixas
+    const getTotalFilasCaixaComprimento = () => {
+        const total = Math.floor((palete.comprimento - caixaNova.comprimento) / caixaNova.largura)
+        return total
     }
 
-    const getTotalCaixasAltura = () => {
-        const total = Math.ceil(palete.alturaMaxima/caixaNova.altura)
-        return total > palete.alturaMaxima ? total - 2 : total - 1
+    const getTotalCaixasComplementar = () => {
+        const total = Math.floor(palete.largura / caixaNova.largura)
+        return total
+    }
+
+    const getTotalCaixasLargura = () => {
+        return Math.floor(palete.largura / caixaNova.largura)
+    }
+
+    const getCaixasAltura = () => {
+        return Math.ceil(palete.alturaMaxima/caixa.altura) * caixa.altura > palete.alturaMaxima ?
+            Math.ceil(palete.alturaMaxima/caixa.altura) - 1
+        :
+            Math.ceil(palete.alturaMaxima/caixa.altura)
     }
 
     const getCaixa = (itemLargura: number, itemComprimento: number, itemAltura: number) => {
         return  (
             <Caixa
                 mesh={{
-                    position:
-                        itemAltura % 2 === 0 ?
-                            itemComprimento >= getTotalCaixasLargura().array.length - getTotalCaixasLargura().invertidos ?
-                                [
-                                    -(caixaNova.comprimento * getTotalCaixasLargura().array[itemComprimento] / 2 - (caixaNova.comprimento/2)) + (caixaNova.comprimento * itemLargura),
-                                    (caixaNova.altura * itemAltura),
-                                    -(caixaNova.largura * getTotalCaixasLargura().array[itemComprimento] / 2 - (caixaNova.largura/2)) + (caixaNova.largura * itemComprimento)
-                                ]
-                            :
-                                [
-                                    -((caixaNova.largura * getTotalCaixasLargura().array[itemComprimento] / 2) - (caixaNova.largura/2)) + (caixaNova.largura * itemLargura),
-                                    (caixaNova.altura * itemAltura),
-                                    -((caixaNova.comprimento * getTotalCaixasComprimento() / 2) - (caixaNova.comprimento/2)) + (caixaNova.comprimento * itemComprimento),
-                                ]
-                        :
-                            [
-                                -((caixaNova.comprimento * getTotalCaixasLarguraAlternada() / 2) - (caixaNova.comprimento/2)) + (caixaNova.comprimento * itemLargura),
-                                (caixaNova.altura * itemAltura),
-                                -((caixaNova.largura * getTotalCaixasComprimentoAlternada() / 2) - (caixaNova.largura/2)) + (caixaNova.largura * itemComprimento),
-                            ]
+                    position: [
+                        - (palete.comprimento/2 - ((palete.comprimento - (getTotalCaixasComprimento() * caixaNova.comprimento))/2) - (caixaNova.comprimento/2)) + (itemComprimento * caixaNova.comprimento),
+                        (caixaNova.altura * itemAltura),
+                        - (palete.largura/2 - ((palete.largura - ((getTotalFilasCaixaComprimento() * caixaNova.largura) + caixaNova.comprimento))/2) - (caixaNova.largura/2)) + (itemLargura * caixaNova.largura)
+                    ]
                 }}
                 box={{
-                    dimensions: itemAltura % 2 === 0 ?
-                        itemComprimento >= getTotalCaixasLargura().array.length - getTotalCaixasLargura().invertidos ?
-                                [caixaNova.comprimento, caixaNova.altura, caixaNova.largura]
-                            :
-                                [caixaNova.largura, caixaNova.altura, caixaNova.comprimento]
-                        :
-                            [caixaNova.comprimento, caixaNova.altura, caixaNova.largura]
+                    dimensions: [caixaNova.comprimento, caixaNova.altura, caixaNova.largura]
+                }}
+            />
+        )
+    }
+
+    const getFilaComplementar = (itemLargura: number, itemAltura: number) => {
+        return  (
+            <Caixa
+                mesh={{
+                    position: [
+                        - (palete.largura/2 - ((palete.largura - (getTotalCaixasLargura() * caixaNova.largura))/2) - (caixaNova.largura/2)) + (itemLargura * caixaNova.largura),
+                        (caixaNova.altura * itemAltura),
+                        ((getTotalFilasCaixaComprimento() * caixaNova.largura) + caixaNova.comprimento)/2 - (caixaNova.comprimento/2)
+                    ]
+                }}
+                box={{
+                    dimensions: [caixaNova.largura, caixaNova.altura, caixaNova.comprimento]
+                }}
+            />
+        )
+    }
+
+    const getCaixaImpar = (itemLargura: number, itemComprimento: number, itemAltura: number) => {
+        return  (
+            <Caixa
+                mesh={{
+                    position: [
+                        - (palete.comprimento/2 - ((palete.comprimento - (getTotalCaixasComprimento() * caixaNova.comprimento))/2) - (caixaNova.comprimento/2)) + (itemComprimento * caixaNova.comprimento),
+                        (caixaNova.altura * itemAltura),
+                        - ((palete.largura/2) - ((palete.largura - ((getTotalFilasCaixaComprimento() * caixaNova.largura) + caixaNova.comprimento))/2) - (caixaNova.largura/2)) + (itemLargura * caixaNova.largura) + caixaNova.comprimento
+                    ]
+                }}
+                box={{
+                    dimensions: [caixaNova.comprimento, caixaNova.altura, caixaNova.largura]
+                }}
+            />
+        )
+    }
+
+    const getFilaComplementarImpar = (itemLargura: number, itemAltura: number) => {
+        return  (
+            <Caixa
+                mesh={{
+                    position: [
+                        - (palete.largura/2 - ((palete.largura - (getTotalCaixasLargura() * caixaNova.largura))/2) - (caixaNova.largura/2)) + (itemLargura * caixaNova.largura),
+                        (caixaNova.altura * itemAltura),
+                        - ((palete.largura/2) - ((palete.largura - ((getTotalFilasCaixaComprimento() * caixaNova.largura) + caixaNova.comprimento))/2) - (caixaNova.comprimento/2))
+                    ]
+                }}
+                box={{
+                    dimensions: [caixaNova.largura, caixaNova.altura, caixaNova.comprimento]
                 }}
             />
         )
@@ -143,42 +160,47 @@ const Colmeia = ({
             <ambientLight color={"white"} intensity={0.2} />
             <spotLight position={[100, 200, 400]} angle={1}/>
             {
-                // [...Array(getTotalCaixasAltura()).keys()].map((itemAltura) => {
-                [0].map((itemAltura) => {
-                    return(
-                        [...Array(
-                            itemAltura % 2 === 0 ?
-                                getTotalCaixasComprimento()
-                            :
-                                getTotalCaixasComprimentoAlternada()
-                            ).keys()
-                        ].map((itemColuna) => {
-                                return (
-                                    [...Array(
-                                        itemAltura % 2 === 0 ?
-                                            getTotalCaixasLargura().array[itemColuna]
-                                        :
-                                            getTotalCaixasComprimentoAlternada()
-                                        ).keys()
-                                    ].map((itemLinha) => {
-                                            return (
-                                                // <Draggable>
-                                                <Fragment
-                                                    key={`${itemLinha}${itemColuna}${itemAltura}`}
-                                                >
-                                                {
-                                                    getCaixa(itemLinha, itemColuna, itemAltura)
-                                                }
-                                                </Fragment>
-                                                // </Draggable>
-                                            )
-                                    })
-                                )
+                [...Array(getCaixasAltura()).keys()].map((caixasAltura) => {
+                    if(caixasAltura % 2 === 0){
+                        return (
+                            [...Array(getTotalCaixasComplementar()).keys()].map((filaCaixaComprimento) => {
+                                return getFilaComplementar(filaCaixaComprimento, caixasAltura)
+                            })
+                        )
+                    }
+
+                    return (
+                        [...Array(getTotalCaixasComplementar()).keys()].map((filaCaixaComprimento) => {
+                            return getFilaComplementarImpar(filaCaixaComprimento, caixasAltura)
                         })
                     )
                 })
             }
+            {
+                [...Array(getCaixasAltura()).keys()].map((caixasAltura) => {
+                    if(caixasAltura % 2 === 0){
+                        return (
+                            [...Array(getTotalFilasCaixaComprimento()).keys()].map((filaCaixaComprimento) => {
+                                return (
+                                    [...Array(getTotalCaixasComprimento()).keys()].map((caixaComprimento) => {
+                                        return getCaixa(filaCaixaComprimento, caixaComprimento, caixasAltura)
+                                    })
+                                )
+                            })
+                        )
+                    }
 
+                    return (
+                        [...Array(getTotalFilasCaixaComprimento()).keys()].map((filaCaixaComprimento) => {
+                            return (
+                                [...Array(getTotalCaixasComprimento()).keys()].map((caixaComprimento) => {
+                                    return getCaixaImpar(filaCaixaComprimento, caixaComprimento, caixasAltura)
+                                })
+                            )
+                        })
+                    )
+                })
+            }
             <Controls />
             <Palete
                 palete={palete}
