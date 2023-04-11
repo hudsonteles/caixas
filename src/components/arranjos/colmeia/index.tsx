@@ -36,6 +36,7 @@ const Colmeia = ({
 
     useEffect(() => {
 
+        setCaixaNova(caixa)
         verificarMelhorDisposicao()
 
     },[ caixa, palete ])
