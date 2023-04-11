@@ -10,6 +10,7 @@ class MyDocument extends Document {
         return (
             <Html>
                 <Head>
+                    <title>Simulador de Carga</title>
                     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css" />
                     <link rel="shortcut icon" href="/images/logos/favicon.ico" />
 
@@ -20,7 +21,7 @@ class MyDocument extends Document {
                 <body>
                     <Main />
                     <NextScript />
-                </body>                
+                </body>
             </Html>
         )
     }
